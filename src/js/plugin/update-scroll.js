@@ -81,7 +81,16 @@ module.exports = function (element, axis, value) {
     element.dispatchEvent(createDOMEvent('ps-scroll-right'));
   }
 
+  function snapValue(value) {
+    // play w this?
+    var boost = 0; //0.4 * (value > element.scrollTop ? 1 : -1)
+    return Math.round((value / 48) + boost) * 48;
+  }
+
   if (axis === 'top' && value !== i.lastTop) {
+    if(!isNaN(i.settings.snapToY)) {
+      value = snapValue(value)
+    }
     element.scrollTop = i.lastTop = value;
     element.dispatchEvent(createDOMEvent('ps-scroll-y'));
   }
