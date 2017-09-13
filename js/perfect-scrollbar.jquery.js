@@ -1527,15 +1527,15 @@ module.exports = function (element, axis, value) {
   }
 
   function snapValue(value) {
+    var snapValue = i.settings.snapToY
+    if(isNaN(snapValue)) return value
     // play w this?
     var boost = 0; //0.4 * (value > element.scrollTop ? 1 : -1)
-    return Math.round((value / 48) + boost) * 48;
+    return Math.round((value / snapValue) + boost) * snapValue;
   }
 
   if (axis === 'top' && value !== i.lastTop) {
-    if(!isNaN(i.settings.snapToY)) {
-      value = snapValue(value)
-    }
+    value = snapValue(value)
     element.scrollTop = i.lastTop = value;
     element.dispatchEvent(createDOMEvent('ps-scroll-y'));
   }
@@ -1544,7 +1544,6 @@ module.exports = function (element, axis, value) {
     element.scrollLeft = i.lastLeft = value;
     element.dispatchEvent(createDOMEvent('ps-scroll-x'));
   }
-
 };
 
 },{"./instances":18}],21:[function(require,module,exports){
